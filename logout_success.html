@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logged Out</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #dbeafe, #eef2ff, #f8fafc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .logout-box {
+            width: 90%;
+            max-width: 420px;
+            background: white;
+            padding: 40px 30px;
+            border-radius: 18px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            text-align: center;
+        }
+
+        h2 {
+            color: #1e293b;
+            margin-bottom: 15px;
+        }
+
+        .quote {
+            color: #6366f1;
+            font-style: italic;
+            font-family: Georgia, serif;
+            font-size: 15px;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 12px 22px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        a:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="logout-box">
+    <h2>👋 Logged Out Successfully</h2>
+
+    <p class="quote">
+        “Success is the sum of small efforts repeated day after day.”
+    </p>
+
+    <p style="color:#64748b;">Thank you for using Smart Study Planner</p>
+
+    <a href="{% url 'login' %}">Login Again</a>
+</div>
+
+</body>
+</html>

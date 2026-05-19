@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Plan Result</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #e8eaf6);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 470px;
+            margin: 60px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .plan-card {
+            background: #f8fafc;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            text-align: left;
+            border-left: 5px solid #6366f1;
+        }
+
+        .button-row {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 12px 22px;
+            border-radius: 25px;
+            color: white;
+            font-size: 15px;
+            display: inline-block;
+        }
+
+        .back-btn {
+            background: #64748b;
+        }
+
+        .dashboard-btn {
+            background: #10b981;
+        }
+
+        .back-btn:hover {
+            background: #475569;
+        }
+
+        .dashboard-btn:hover {
+            background: #059669;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>📚 Your Study Plan</h2>
+
+    {% for plan in detailed_plan %}
+    <div class="plan-card">
+        <strong>{{ plan.subject }}</strong><br>
+        Total: {{ plan.subject_hours }} hrs
+
+        <ul style="margin-top:10px;">
+            {% for topic in plan.subtopics %}
+                <li>{{ topic.title }} — {{ plan.per_topic_hours }} hrs</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endfor %}
+
+    <div class="button-row">
+        <a href="/home/" class="btn back-btn">Edit Plan</a>
+        <a href="/dashboard/" class="btn dashboard-btn">Start Dashboard</a>
+    </div>
+</div>
+
+</body>
+</html>

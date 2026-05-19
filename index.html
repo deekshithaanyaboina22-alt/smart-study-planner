@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Study Planner</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #dbeafe, #eef2ff, #f8fafc);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .container {
+            width: 550px;
+            background: rgba(255, 255, 255, 0.96);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+
+        h2 {
+            text-align: center;
+            color: #1e293b;
+            margin-bottom: 0;
+        }
+
+        .tagline {
+            text-align: center;
+            color: #6366f1;
+            font-size: 15px;
+            font-style: italic;
+            font-family: Georgia, serif;
+            margin-top: 10px;
+            margin-bottom: 22px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #334155;
+            margin-top: 10px;
+            display: block;
+        }
+
+        input, textarea {
+            width: 95%;
+            padding: 11px;
+            margin: 8px 0 15px 0;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 8px rgba(99,102,241,0.2);
+        }
+
+        textarea {
+            resize: none;
+            height: 65px;
+        }
+
+        button {
+            width: 96%;
+            padding: 12px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            opacity: 0.92;
+        }
+
+        .subject-box {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 14px;
+            margin-top: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .subject-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #4f46e5;
+            margin-bottom: 10px;
+        }
+
+        .note {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: -8px;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+    </style>
+
+    <script>
+        function createSubjects() {
+            let n = document.getElementById("num").value;
+            let area = document.getElementById("subjects_area");
+            area.innerHTML = "";
+
+            for (let i = 1; i <= n; i++) {
+                area.innerHTML += `
+                    <div class="subject-box">
+                        <div class="subject-title">📘 Subject ${i}</div>
+
+                        <label>Subject Name</label>
+                        <input type="text" name="subjects" placeholder="Enter subject name" required>
+
+                        <label>Due Date</label>
+                        <input type="date" name="due_dates">
+
+                        <label>Number of Subtopics</label>
+                        <input type="number" name="subtopic_count" min="1" placeholder="Enter number">
+
+                        <label>Optional: Enter Subtopic Names</label>
+                        <textarea name="subtopics" placeholder="Example: loops, functions, classes"></textarea>
+
+                        <p class="note">Enter names OR just the number of subtopics.</p>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>📚 Smart Study Planner</h2>
+
+    <p class="tagline">
+        “Plan your study smartly and track progress daily ✨”
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>📖 Number of Subjects</label>
+        <input type="number" id="num" min="1" required>
+
+        <button type="button" onclick="createSubjects()">Generate Subject Fields</button>
+
+        <div id="subjects_area"></div>
+
+        <label>⏰ Total Study Hours</label>
+        <input type="number" name="hours" min="1" required>
+
+        <button type="submit">Create Study Plan</button>
+    </form>
+</div>
+
+</body>
+</html>

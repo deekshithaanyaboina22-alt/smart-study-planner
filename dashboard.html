@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #eef2ff, #f8fafc);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 640px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #1e293b;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .stat-box {
+            flex: 1;
+            padding: 10px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .total-box { background: #dbeafe; }
+        .completed-box { background: #dcfce7; }
+        .pending-box { background: #fee2e2; }
+
+        .overall-bar {
+            background: #e5e7eb;
+            border-radius: 20px;
+            height: 20px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .overall-fill {
+            background: #10b981;
+            height: 20px;
+            color: white;
+            text-align: center;
+            line-height: 20px;
+            font-size: 13px;
+        }
+
+        .subject-box {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 12px;
+        }
+
+        .subject-progress {
+            width: 60%;
+            margin: 10px auto 15px auto;
+            background: #e5e7eb;
+            border-radius: 20px;
+            height: 14px;
+            overflow: hidden;
+        }
+
+        .subject-fill {
+            background: #6366f1;
+            height: 14px;
+            color: white;
+            text-align: center;
+            font-size: 10px;
+            line-height: 14px;
+        }
+
+        .task-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: 18px;
+            font-size: 13px;
+            margin-left: 5px;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            border: none;
+            color: white;
+            padding: 10px 22px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 30px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>📚 Smart Study Planner Dashboard</h2>
+
+    <p style="text-align:center; color:#475569; font-size:16px; margin-top:-10px;">
+        Welcome, {{ request.user.username }} 👋
+    </p>
+
+    <div class="stats-row">
+        <div class="stat-box total-box">
+            <h3>{{ total_tasks }}</h3>
+            <p>📌 Total</p>
+        </div>
+
+        <div class="stat-box completed-box">
+            <h3>{{ completed_tasks }}</h3>
+            <p>✅ Completed</p>
+        </div>
+
+        <div class="stat-box pending-box">
+            <h3>{{ pending_tasks }}</h3>
+            <p>⏳ Pending</p>
+        </div>
+    </div>
+
+    
+    <h3>📊 Overall Progress</h3>
+
+    {% if progress == 100 %}
+    <p style="text-align:center; color:#16a34a; font-weight:bold; font-size:16px;">
+        🎉 All subjects completed successfully!
+    </p>
+    {% endif %}
+
+    <div class="overall-bar">
+        <div class="overall-fill" style="width: {{ progress }}%;">
+            {{ progress }}%
+        </div>
+    </div>
+
+    {% for subject, data in subjects.items %}
+        <div class="subject-box" style="background:{% if data.progress == 100 %}#dcfce7{% else %}#f8fafc{% endif %};">
+            <h3>📘 {{ subject }}</h3>
+
+            <p style="text-align:center; color:#6366f1; font-size:14px; margin-top:-8px;">
+                ⏰ {{ data.hours }} hrs allocated
+            </p>
+
+            {% if data.due_date and data.progress < 100 %}
+            <p style="text-align:center; color:#64748b; font-size:14px; margin-top:-8px; margin-bottom:10px;">
+                 📅 Due: {{ data.due_date }}
+            </p>
+            {% endif %}
+
+            <div class="subject-progress">
+                <div class="subject-fill" style="width: {{ data.progress }}%;">
+                    {{ data.progress }}%
+                </div>
+            </div>
+
+            {% for task in data.tasks %}
+                <div class="task-card">
+                    <span>
+                        {{ task.title }}
+                        <small style="color:#6366f1; margin-left:8px;">
+                             ({{ data.topic_hours }} hrs)
+                        </small>
+                    </span>
+
+                    <a href="/toggle-task/{{ task.id }}/"
+                       class="btn"
+                       style="background:{% if task.completed %}#22c55e{% else %}#cbd5e1{% endif %};
+                              color:{% if task.completed %}white{% else %}#334155{% endif %};">
+                        {% if task.completed %}
+                            ✔
+                        {% else %}
+                            ○
+                        {% endif %}
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+    <div style="text-align:center;">
+        <a href="{% url 'custom_logout' %}">
+            <button type="button" class="logout-btn">🚪 Logout</button>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
